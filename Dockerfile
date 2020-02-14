@@ -11,7 +11,7 @@ RUN apk update \
         freetds \
         git \
         gnupg \
-        openssh-client \
+        openssh \
         unixodbc \
         unzip \
     && apk add --no-cache --virtual .build-deps \
