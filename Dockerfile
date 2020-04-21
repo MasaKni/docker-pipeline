@@ -11,7 +11,7 @@ RUN apk update \
         freetds \
         git \
         gnupg \
-        openssh-client \
+        openssh \
         unixodbc \
         unzip \
     && apk add --no-cache --virtual .build-deps \
@@ -24,7 +24,11 @@ RUN apk update \
     && apk del .build-deps
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-    && composer global require hirak/prestissimo
+    && composer global require hirak/prestissimo \
+    && composer global config "extra.shared-package.vendor-dir" "/root/.composer/vendor-shared" \
+    && composer global require letudiant/composer-shared-package-plugin
+
+ENV COMPOSER_SPP_VENDOR_DIR "/root/.composer/vendor-shared"
 
 RUN curl -sL https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar > /usr/bin/php-cs-fixer \
     && chmod a+x /usr/bin/php-cs-fixer
