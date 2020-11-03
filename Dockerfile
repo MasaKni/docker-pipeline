@@ -24,7 +24,7 @@ RUN apk update \
     && apk del .build-deps
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-    && composer global require hirak/prestissimo phpstan/phpstan \
+    && composer global require phpstan/phpstan \
     && ln -s /root/.composer/vendor/phpstan/phpstan/phpstan /usr/bin/phpstan
 
 RUN curl -sL https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar > /usr/bin/php-cs-fixer \
