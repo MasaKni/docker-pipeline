@@ -15,13 +15,31 @@ RUN apk update \
         unixodbc \
         unzip \
     && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        unixodbc-dev \
+        autoconf \
+        automake \
+        dpkg \
+        dpkg-dev \
+        file \
         freetds-dev \
+        g++ \
+        gcc \
+        libc-dev \
+        libtool \
+        make \
+        pcre-dev \
+        pcre2-dev \
+        php7-dev \
+        php7-pear \
+        pkgconf \
+        re2c \
+        unixodbc-dev \
+        zlib-dev \
     && pecl install sqlsrv pdo_sqlsrv \
     && echo "extension=sqlsrv.so" > /etc/php7/conf.d/50_sqlsrv.ini \
     && echo "extension=pdo_sqlsrv.so" > /etc/php7/conf.d/50_pdo_sqlsrv.ini \
-    && apk del .build-deps
+    && apk del .build-deps \
+    && apk del --purge *-dev \
+    && rm -rf /var/cache/apk/* /tmp/* /usr/share/man
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
     && composer global require phpstan/phpstan \
