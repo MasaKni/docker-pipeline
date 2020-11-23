@@ -8,6 +8,7 @@ COPY --from=mssql /usr/lib/libmsodbcsql-13.so /usr/lib/libmsodbcsql-13.so
 
 RUN apk update \
     && apk add --no-cache --virtual .persistent-deps \
+        bash \
         freetds \
         git \
         gnupg \
