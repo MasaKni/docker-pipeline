@@ -4,7 +4,6 @@ FROM rshop/swoole:7.4-mssql
 RUN apk update \
     && apk add --no-cache \
         bash \
-        freetds \
         git \
         gnupg \
         openssh \
