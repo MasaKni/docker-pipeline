@@ -13,6 +13,6 @@ RUN apk update \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
     && composer global require phpstan/phpstan \
-    && ln -s /root/.composer/vendor/phpstan/phpstan/phpstan /usr/bin/phpstan \
-    && curl -sL https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar > /usr/bin/php-cs-fixer \
-    && chmod a+x /usr/bin/php-cs-fixer
+    && ln -s /root/.composer/vendor/bin/phpstan /usr/bin/phpstan \
+    && composer global require friendsofphp/php-cs-fixer \
+    && ln -s /root/.composer/vendor/bin/php-cs-fixer /usr/bin/php-cs-fixer
