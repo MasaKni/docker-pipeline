@@ -4,7 +4,8 @@ on: [push, workflow_dispatch, repository_dispatch]
 
 env:
   BRANCH: '8.0'
-  INSTALL_WORFLOW_ID: '8996892'
+  INSTALL_WORKFLOW_ID: '8996892'
+  PIPELINE_PIPE_WORKFLOW_ID: '12877006'
 
 jobs:
   docker:
@@ -48,5 +49,13 @@ jobs:
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           repository: 'rshop/docker-install'
-          workflowId: ${{ env.INSTALL_WORFLOW_ID }}
+          workflowId: ${{ env.INSTALL_WORKFLOW_ID }}
+          branch: ${{ env.BRANCH }}
+      -
+        name: Trigger pipeline pipe rebuild
+        uses: rshop/trigger-workflow-action@v1
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repository: 'rshop/docker-install'
+          workflowId: ${{ env.PIPELINE_PIPE_WORKFLOW_ID }}
           branch: ${{ env.BRANCH }}
