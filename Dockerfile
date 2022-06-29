@@ -1,5 +1,5 @@
 
-FROM rshop/swoole:7.3-mssql
+FROM rshop/swoole:8.0-mssql
 
 RUN apk update \
     && apk add --no-cache \
@@ -12,7 +12,7 @@ RUN apk update \
     && rm -rf /var/cache/apk/* /tmp/* /usr/share/man
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
-    && composer global require phpstan/phpstan \
+    && composer global require phpstan/phpstan:0.12.*  \
     && ln -s /root/.composer/vendor/bin/phpstan /usr/bin/phpstan \
     && composer global require friendsofphp/php-cs-fixer:2.* \
     && ln -s /root/.composer/vendor/bin/php-cs-fixer /usr/bin/php-cs-fixer \
