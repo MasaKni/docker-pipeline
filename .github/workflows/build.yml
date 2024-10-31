@@ -3,7 +3,7 @@ name: Build image and push to Docker Hub
 on: [push, workflow_dispatch, repository_dispatch]
 
 env:
-  BRANCH: '8.3'
+  BRANCH: '8.4'
   INSTALL_WORKFLOW_ID: '8996892'
   PIPELINE_PIPE_WORKFLOW_ID: '12877006'
 

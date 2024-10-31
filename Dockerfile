@@ -1,5 +1,5 @@
 
-FROM rshop/swoole:8.3-mssql
+FROM rshop/swoole:8.4-mssql
 
 RUN apk update \
     && apk add --no-cache \
