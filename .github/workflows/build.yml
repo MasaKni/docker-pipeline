@@ -1,11 +1,8 @@
 name: Build image and push to Docker Hub
 
-on: [push, workflow_dispatch, repository_dispatch]
-
-env:
-  BRANCH: '8.4'
-  INSTALL_WORKFLOW_ID: '8996892'
-  PIPELINE_PIPE_WORKFLOW_ID: '12877006'
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   docker:
@@ -13,49 +10,47 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          ref: ${{ env.BRANCH }}
+          ref: ${{ github.ref_name }}
       -
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
       -
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
       -
         name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build latest
-        if: ${{ env.BRANCH == '7.4' }}
-        uses: docker/build-push-action@v2
+        if: ${{ github.ref_name == '8.3' }}
+        uses: docker/build-push-action@v6
         with:
           platforms: ${{ secrets.DOCKER_PLATFORMS }}
           push: true
           tags: rshop/pipeline:latest
       -
         name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v6
         with:
           platforms: ${{ secrets.DOCKER_PLATFORMS }}
           push: true
-          tags: rshop/pipeline:${{ env.BRANCH }}
+          tags: rshop/pipeline:${{ github.ref_name }}
       -
         name: Trigger install rebuild
         uses: rshop/trigger-workflow-action@v1
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           repository: 'rshop/docker-install'
-          workflowId: ${{ env.INSTALL_WORKFLOW_ID }}
-          branch: ${{ env.BRANCH }}
+          branch: ${{ github.ref_name }}
       -
         name: Trigger pipeline pipe rebuild
         uses: rshop/trigger-workflow-action@v1
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           repository: 'rshop/bitbucket-pipeline-pipe'
-          workflowId: ${{ env.PIPELINE_PIPE_WORKFLOW_ID }}
-          branch: ${{ env.BRANCH }}
+          branch: ${{ github.ref_name }}
